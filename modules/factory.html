@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngularJS Factory Example</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.factory('MathFactory', function() {
+            var factory = {}; //excepts to return the value, in this case empty obj
+            factory.square = function(a) {
+                return a * a;
+            };
+
+            factory.cube = function(a) {
+                return a * a * a;
+            };
+            return factory;
+        });
+        app.controller('MainController', function($scope, MathFactory) {
+            $scope.num = 5;
+
+            $scope.updateValues = function() {
+                $scope.square = MathFactory.square($scope.num);
+                $scope.cube = MathFactory.cube($scope.num);
+            };
+            $scope.updateValues();
+        });
+    </script>
+</head>
+<body ng-controller="MainController">
+    <h1>AngularJS Factory Example</h1>
+    <p>
+        Number: 
+        <input type="number" ng-model="num" ng-change="updateValues()">
+    </p>
+    <p>Square: {{ square }}</p>
+    <p>Cube: {{ cube }}</p>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngularJS Custom Directive</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.directive('squareDisplay', function() {
+            return {
+                restrict: 'E',   // Element type directive
+                scope: {
+                    number: '='  // Two-way binding for number
+                },
+                template: '<p>The square of {{ number }} is {{ number * number }}</p>'
+            };
+        });
+
+        app.controller('MainController', function($scope) {
+            $scope.num = null;
+        });
+    </script>
+</head>
+<body ng-controller="MainController">
+    <h1>AngularJS Custom Directive Example</h1>
+    <p>Enter a number:</p>
+    <input type="number" ng-model="num">
+    
+    <square-display number="num"></square-display>
+</body>
+</html>
