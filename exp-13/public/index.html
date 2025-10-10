@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AngularJS + Node.js + MongoDB</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    var app = angular.module('app', []);
+
+    // Controller
+    app.controller('MainCtrl', function($scope, $http) {
+      $scope.posts = [];
+      $scope.loading = true;
+      $scope.error = null;
+
+      // Load posts from DB
+      $scope.loadPosts = function() {
+        $scope.loading = true;
+        $scope.error = null;
+        $http.get('/api/posts')
+          .then(function(response) {
+            $scope.posts = response.data;
+            $scope.loading = false;
+          })
+          .catch(function(err) {
+            console.error(err);
+            $scope.loading = false;
+            $scope.error = "Failed to load posts from database.";
+          });
+      };
+
+      // Fetch & save posts from API
+      $scope.fetchAndSave = function() {
+        $http.get('/api/fetch-and-save')
+          .then(function(res) {
+            alert(res.data.message + " (" + res.data.savedCount + " new posts)");
+            $scope.loadPosts(); // Reload posts after saving
+          })
+          .catch(function(err) {
+            console.error(err);
+            alert("Error fetching/saving posts");
+          });
+      };
+
+      // Initial load
+      $scope.loadPosts();
+    });
+
+    // Custom directive for rendering a post
+    app.directive('postItem', function() {
+      return {
+        restrict: 'E',
+        scope: {
+          post: '='
+        },
+        template: `
+          <li style="margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+            <strong>{{post.title}}</strong><br>
+            {{post.body}}
+          </li>
+        `
+      };
+    });
+  </script>
+</head>
+<body ng-controller="MainCtrl" style="font-family: Arial, sans-serif; padding: 20px;">
+  <h1>Posts from Database</h1>
+
+  <button ng-click="fetchAndSave()" style="margin-bottom: 20px; padding: 10px 15px;">Fetch & Save Posts</button>
+
+  <div ng-if="loading" style="font-weight: bold;">Loading posts...</div>
+
+  <div ng-if="error" style="color: red; font-weight: bold;">{{error}}</div>
+
+  <ul ng-if="!loading && !error">
+    <post-item ng-repeat="post in posts" post="post"></post-item>
+  </ul>
+</body>
+</html>

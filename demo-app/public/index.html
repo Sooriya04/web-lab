@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="curdApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+    <title>Employee CRUD</title>
+    <style>
+        .error { color: red; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px; text-align: left; border: 1px solid #ccc; }
+    </style>
+</head>
+<body ng-controller="bodyController">
+
+    <h2>Add Employee</h2>
+    <form ng-submit="addEmp()">
+        <input type="text" ng-model="newEmp.name" placeholder="Name" required>
+        <input type="email" ng-model="newEmp.email" placeholder="Email" required>
+        <input type="text" ng-model="newEmp.phno" placeholder="Phone" required>
+        <input type="text" ng-model="newEmp.empId" placeholder="Emp ID" required>
+        <input type="text" ng-model="newEmp.role" placeholder="Role" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <!-- Show error if exists -->
+    <p class="error" ng-if="errorMsg">{{ errorMsg }}</p>
+
+    <h2>Employees List</h2>
+    <input type="text" ng-model="searchText" placeholder="Search Employee...">
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Emp ID</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+        <tr ng-repeat="emp in emps | filter:searchText">
+            <td><input type="text" ng-model="emp.name"></td>
+            <td><input type="text" ng-model="emp.email"></td>
+            <td><input type="text" ng-model="emp.phno"></td>
+            <td><input type="text" ng-model="emp.empId"></td>
+            <td><input type="text" ng-model="emp.role"></td>
+            <td>
+                <button ng-click="updateEmp(emp)">Update</button>
+                <button ng-click="deleteEmp(emp._id)">Delete</button>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
