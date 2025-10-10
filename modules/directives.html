@@ -10,9 +10,9 @@
 
         app.directive('squareDisplay', function() {
             return {
-                restrict: 'E',   // Element type directive
+                restrict: 'E',
                 scope: {
-                    number: '='  // Two-way binding for number
+                    number: '='
                 },
                 template: '<p>The square of {{ number }} is {{ number * number }}</p>'
             };
@@ -20,6 +20,12 @@
 
         app.controller('MainController', function($scope) {
             $scope.num = null;
+            $scope.showSquare = false;
+            $scope.displaySquare = function() {
+                if($scope.num !== null && $scope.num !== '') {
+                    $scope.showSquare = true;
+                }
+            };
         });
     </script>
 </head>
@@ -27,7 +33,8 @@
     <h1>AngularJS Custom Directive Example</h1>
     <p>Enter a number:</p>
     <input type="number" ng-model="num">
+    <button ng-click="displaySquare()">Show Square</button>
     
-    <square-display number="num"></square-display>
+    <square-display ng-if="showSquare" number="num"></square-display>
 </body>
 </html>
