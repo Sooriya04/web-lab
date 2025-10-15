@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="quizApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Quiz App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
+        .option { margin: 5px 0; }
+        button { margin-top: 15px; padding: 8px 15px; cursor: pointer; }
+    </style>
+</head>
+<body ng-controller="QuizController">
+
+    <div ng-if="!quizOver">
+        <div class="question">
+            Q{{currentIndex + 1}}. {{questions[currentIndex].text}}
+        </div>
+
+        <div ng-repeat="option in questions[currentIndex].options" class="option">
+            <input type="radio" ng-model="selectedAnswer" ng-value="option"> {{option}}
+        </div>
+
+        <button ng-click="nextQuestion()">Next</button>
+    </div>
+
+    <div ng-if="quizOver">
+        <h2>Your Score: {{score}} / {{questions.length}}</h2>
+        <button ng-click="restartQuiz()">Restart</button>
+    </div>
+
+    <script>
+        var app = angular.module("quizApp", []);
+
+        app.controller("QuizController", function($scope) {
+            $scope.questions = [
+                { text: "What is the capital of India?", options: ["Delhi", "Mumbai", "Chennai"], answer: "Delhi" },
+                { text: "2 + 2 = ?", options: ["3", "4", "5"], answer: "4" },
+                { text: "Which is a programming language?", options: ["HTML", "Python", "CSS"], answer: "Python" }
+            ];
+
+            $scope.currentIndex = 0;
+            $scope.score = 0;
+            $scope.quizOver = false;
+
+            $scope.nextQuestion = function() {
+                if ($scope.selectedAnswer === $scope.questions[$scope.currentIndex].answer) {
+                    $scope.score++;
+                }
+
+                $scope.currentIndex++;
+                $scope.selectedAnswer = null;
+
+                if ($scope.currentIndex >= $scope.questions.length) {
+                    $scope.quizOver = true;
+                }
+            };
+
+            $scope.restartQuiz = function() {
+                $scope.currentIndex = 0;
+                $scope.score = 0;
+                $scope.quizOver = false;
+            };
+        });
+    </script>
+
+</body>
+</html>
