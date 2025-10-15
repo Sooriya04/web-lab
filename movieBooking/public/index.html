@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = 'movieApp'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Movie Booking</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body{
+            margin: 50px;
+            padding: 0;
+            text-align: center;
+        }
+        form{
+            display: inline-block;
+            text-align: left;
+            padding: 20px;
+            border: 1px solid #000;
+        }
+        input{
+            display: block;
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 250px;
+        }
+        button{
+            padding: 8px 16px;
+        }
+        table{
+            margin: 0 auto;
+        }
+        tr, th, td{
+            padding: 12px;
+        }
+    </style>
+    <script src="app.js"></script>
+</head>
+<body ng-controller = 'movieController'>
+        <h3>ONLINE TICKET BOOKING APP</h3>
+        <p ng-if = 'error'>{{error}}</p>
+        <p ng-if = 'loading'>Loading please wait.....</p>
+        <form ng-if = '!loading'>
+        <label for="moviename">
+            <p>Enter the movie name</p>
+            <input type="text" ng-model = "newBooking.movieName" required>
+        </label>
+        <label for="username">
+            <p>Enter your name</p>
+            <input type="text" ng-model = "newBooking.userName" required>
+        </label>
+        <label for="email">
+            <p>Enter your email</p>
+            <input type="email" ng-model = "newBooking.email" required>
+        </label>
+        
+        <label for="seats">
+            <p>Enter the number of seats</p>
+            <input type="number" ng-model = "newBooking.seats">
+        </label>
+        <label for="date">
+            <p>Enter your date</p>
+            <input type="date" ng-model = "newBooking.movieDate" required>
+        </label>
+        <button ng-click = "bookNow()">
+            Book Now
+        </button>
+        </form>
+        <h3 ng-if = '!loading'>Booking Details</h3>
+        <table ng-if = '!loading'>
+            <tr>
+                <th>Moive</th>
+                <th>Name</th>
+                <th>seats</th>
+                <th>Date</th>
+            </tr>
+            <tr ng-repeat = 'booking in bookings'>
+                <td>{{booking.movieName}}</td>
+                <td>{{booking.userName}}</td>
+                <td>{{booking.seats}}</td>
+                <td>{{booking.movieDate}}</td>
+
+            </tr>
+        </table>
+</body>
+</html>

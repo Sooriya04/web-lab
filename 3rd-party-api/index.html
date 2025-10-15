@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="apiApp">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS API Demo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 80%; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #4CAF50; color: white; }
+    </style>
+</head>
+<body ng-controller="MainController">
+
+    <h2>Users from API</h2>
+
+    <button ng-click="fetchUsers()">Fetch Users</button>
+
+    <table ng-if="users.length > 0">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Username</th>
+        </tr>
+        <tr ng-repeat="user in users">
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.username}}</td>
+        </tr>
+    </table>
+
+</body>
+<script src="app.js"></script>
+</html>
